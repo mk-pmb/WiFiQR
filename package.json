@@ -1,0 +1,34 @@
+{ "name": "WiFiQR",
+  "version": "0.1.0",
+  "description": "WiFi Login QR Code Generator",
+  "keywords": [
+    "barcode",
+    "psk",
+    "qr",
+    "qrcode",
+    "wifi",
+    "wlan",
+    "wpa",
+    "wpa2"
+  ],
+
+  "author": "Chris van Marle (https://github.com/qistoph)",
+  "homepage": "https://github.com/mk-pmb/WiFiQR/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/WiFiQR.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/WiFiQR/issues"
+  },
+  "contributors": [
+    "M.K. (https://github.com/mk-pmb)",
+    "RoyK (https://github.com/rkokkelk)"
+  ],
+
+  "private": true, "license": "MIT",
+
+
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}
