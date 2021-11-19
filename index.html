@@ -278,6 +278,7 @@
 
     function mecard_escape(str) {
       str = str.replace(/([\\\";:,])/g, '\\$1');
+      str = str.replace(/^(\w+)$/, '"$1"');
       return str;
     }
 
