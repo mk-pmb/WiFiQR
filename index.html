@@ -2,11 +2,11 @@
 <html><head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>WiFi QR-code - Javascript</title>
+  <title>WiFi QR code generator</title>
 
   <!-- Facebook Meta Tags -->
   <meta property="og:url" content="https://qistoph.github.io/WiFiQR/" />
-  <meta property="og:title" content="WiFi QR-code" />
+  <meta property="og:title" content="WiFi QR code generator" />
   <meta property="og:description" content="Share your WiFi easily with a QR-code" />
   <meta property="og:image" content="https://qistoph.github.io/WiFiQR/example.png" />
 
@@ -73,7 +73,7 @@
       font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
       font-size: 100%;
       margin: 10px;
-      line-height: 1.4;
+      line-height: 1.2;
       background: #f1f1f1;
       color: rgba(0, 0, 0, 0.5);
     }
@@ -85,6 +85,10 @@
     ul {
       list-style: disc inside none;
       margin: -1.4em 0.4em 1.4em;
+    }
+
+    ul ul {
+      margin-top: 0; margin-left: 1.5em;
     }
 
     h1 {
@@ -241,6 +245,25 @@
       bottom: 3mm;
       width: 8mm;
     }
+
+    #wifiparams {
+      width: 25em;
+    }
+
+    p.small {
+      font-size: 80%;
+      line-height: 1;
+      margin: 0;
+    }
+
+    #P {
+      width: 100%;
+      height: 4em;
+      resize: vertical;
+      font-family: monospace;
+      white-space: normal;
+      word-break: break-all;
+    }
   </style>
 
   <script>
@@ -250,6 +273,22 @@
     // H:true vs B:true for hidden networks:
     // https://code.google.com/p/zxing/issues/detail?id=1218
     // https://code.google.com/p/zxing/issues/detail?id=1455
+
+    function genPsk(psk) {
+      try {
+        // Generate 48 random bytes:
+        psk = window.crypto.getRandomValues(new Uint8Array(48));
+        // Encode them as base64:
+        psk = btoa(String.fromCharCode.apply(null, psk));
+        // Wifi PSK only allows 63 password characters, so chop the last:
+        psk = psk.slice(0, -1);
+        // I prefer base64-url over base64, so convert it:
+        psk = psk.replace(/\+/g, '-').replace(/\//g, '_');
+        $("#P").val(psk);
+      } catch (err) {
+        window.alert('Error: ' + err);
+      }
+    }
 
     $(function() {
       $("input:submit, input:checkbox, button").button();
@@ -266,14 +305,8 @@
           })
         .focus(function() { $(this).select() })
         .mouseup(function(e) { e.preventDefault(); });
-
-      $("#H").click(function() {
-        $(this).button('option', 'label', $(this).is(':checked') ? 'Hidden' : 'Visible');
-      });
-
-      $("#PS").click(function() {
-        $(this).button('option', 'label', $(this).is(':checked') ? 'Show' : 'Hide');
-      });
+      $('#pwd-gen').on('click', genPsk);
+      genPsk();
     });
 
     function mecard_escape(str) {
@@ -342,7 +375,7 @@
         <div id="qrsub">&nbsp;</div>
         <div id="qrkey">&nbsp;</div>
       </div>
-      <table>
+      <table id="wifiparams">
         <tr>
           <td><label>Encryption:</label></td>
           <td><div class="radio">
@@ -353,38 +386,55 @@
         </tr>
         <tr>
           <td>SSID:</td>
-          <td><input type="text" id="S" value="YourSSID"></td>
+          <td><input type="text" id="S" value="Guest-WiFi"></td>
         </tr>
         <tr>
           <td>Password:</td>
-          <td><input type="password" id="P" value="somepassword"></td>
+          <td>
+            <p class="small">(Your input will NOT be obscured.
+              After all, displaying the credentials is the core
+              purpose of this QR code generator.)
+            </p>
+          </td>
+        </tr>
+        <tr><td></td>
+          <td><textarea id="P" cols="33" rows="3" wrap="soft"></textarea></td>
+        </tr>
+        <tr><td></td>
+          <td><input type="button" id="pwd-gen"
+            value="Generate random password"></td>
         </tr>
         <tr>
-          <td>Password:</td>
-          <td><input type="checkbox" id="PS" value="true" checked /><label for="PS">Show</label></td>
+          <td>Print:</td>
+          <td><input type="checkbox" id="PS" value="true" checked />
+            <label for="PS">Show plaintext password</label></td>
         </tr>
         <tr>
           <td>Visibility:</td>
-          <td><input type="checkbox" id="H" value="true" /><label for="H">Visible</label></td>
+          <td><input type="checkbox" id="H" value="true"
+            /><label for="H">Wifi is "hidden"</label>
+            <p class="small">(Access point doesn't broadcast beacons)</p>
+          </td>
         </tr>
         <tr>
           <td>&nbsp;</td>
-          <td><button onClick="generateQR($('#qrcode'), $('#qrsub'), $('#qrkey'))">Generate</button> <button onClick="printQR()">Print</button></td>
+          <td><button onClick="generateQR($('#qrcode'), $('#qrsub'), $('#qrkey'))"
+            >Generate QR Code</button> <button onClick="printQR()">Print</button></td>
         </tr>
       </table>
     </div>
     <div id="about">
-      <h1>WiFi QR-code - Javascript</h1>
+      <h1>WiFi QR code generator</h1>
       <p>
         With current (Android) mobiles it is possible to add a WiFi network by
-        scanning a QR-code.
+        scanning a QR code.
         "Barcode&nbsp;Scanner"
-        by ZXing Team is one of the apps recognizing the WiFi QR-codes.
+        by ZXing Team is one of the apps recognizing the WiFi QR codes.
         (Available <a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android"
           target="_blank">here on the Google Play Store</a>.)
 
-        Other QR-code generators online (that support WiFi-QR)
-        generate the QR-code server side, which means the data,
+        Other QR code generators online (that support WiFi-QR)
+        generate the QR code server side, which means the data,
         including the password, is sent over the internet.
         Since I wasn't comfortable with this, I have created an open
         source JavaScript alternative.
@@ -408,6 +458,7 @@
             <li><a href="https://github.com/zxing/zxing/wiki/Barcode-Contents#wi-fi-network-config-android-ios-11"
               target="_blank">Contents of the generated barcode</a></li>
           </ul>
+          </li>
       </ul>
       <p>
         The source is available on <a href="https://github.com/qistoph/WiFiQR/" target="_blank">GitHub</a><br/>
