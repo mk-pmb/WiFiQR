@@ -308,29 +308,33 @@
     }
 
     window.printQR = function(targetWin) {
-      var printWin = window.open('', '_blank', '');
-
-      printWin.document.write('<!doc'+'type html><ht'+'ml><he'+'ad><title>WiFi: ' + $("#S").val() + '</title></he'+'ad><bo'+'dy>');
-      printWin.document.write('<div id="card">');
-      printWin.document.write('<div id="cardcontent">');
-      printWin.document.write('<div id="qrcode"></div>');
-      printWin.document.write('<div id="qrtitle"></div>');
-      printWin.document.write('<div id="qrkey"></div>');
-      printWin.document.write('<div id="text">Connect to the network by scanning the QR code above with your (Android) device.</div>');
-      printWin.document.write('<img src="wifi.png" id="wifilogo">');
-      printWin.document.write('<div id="about">Generate your WiFi QR at<br/>https://qistoph.github.io/WiFiQR</div>');
-      printWin.document.write('</div>');
-      printWin.document.write('</div>');
-      printWin.document.write('</bo'+'dy></ht'+'ml>');
+      var printWin = window.open('', '_blank', ''),
+        pd = printWin.document, code;
+      code = [
+        '<!DOC\vTYPE html><ht\vml><he\vad><title></title></he\vad><bo\vdy>',
+        '<div id="card">',
+        '<div id="cardcontent">',
+        '<div id="qrcode"></div>',
+        '<div id="qrtitle"></div>',
+        '<div id="qrkey"></div>',
+        '<div id="text">Connect to the network by scanning the QR code above',
+        '  with your (Android) device.</div>',
+        '<img src="wifi.png" id="wifilogo">',
+        '<div id="about">Generate your WiFi QR at<br/>',
+        'https://qistoph.github.io/WiFiQR</div>',
+        '</div>',
+        '</div>',
+        '</bo\vdy></ht\vml>',
+      ].join('\n').replace(/\v/g, '');
+      pd.write(code);
+      pd.title = 'WiFi: ' + $("#S").val();
 
       $("style[target='card']").each(function() {
-        $(printWin.document.head).append($(this).clone())
+        $(pd.head).append($(this).clone())
       });
 
-      generateQR($("#qrcode", printWin.document), $("#qrtitle", printWin.document), $("#qrkey", printWin.document));
-      $(printWin.document).ready(function() {
-        printWin.print();
-      });
+      generateQR($("#qrcode", pd), $("#qrtitle", pd), $("#qrkey", pd));
+      $(pd).ready(function() { printWin.print(); });
     }
   </script>
 </head>
