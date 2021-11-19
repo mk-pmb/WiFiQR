@@ -9,12 +9,10 @@
 		<meta property="og:description" content="Share your WiFi easily with a QR-code" />
 		<meta property="og:image" content="https://qistoph.github.io/WiFiQR/example.png" />
 
-		<!-- Reference scripts and theme stylesheet on the Google CDN -->
-		<!-- use //ajax... for online web to automatically switch between http and https -->
-		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/ui-lightness/jquery-ui.css"
+		<link href="../jquery-dist-pmb/jquery/ui/themes/ui-lightness/jquery-ui.css"
 			type="text/css" rel="Stylesheet" />
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+		<script src="../jquery-dist-pmb/jquery/jquery-3.x.min.js"></script>
+		<script src="../jquery-dist-pmb/jquery/ui/jquery-ui.min.js"></script>
 
 		<script src="jquery.qrcode.min.js"></script>
 
@@ -374,10 +372,6 @@
 						<td><button onClick="generateQR($('#qrcode'), $('#qrsub'), $('#qrkey'))">Generate</button> <button onClick="printQR()">Print</button></td>
 					</tr>
 				</table>
-				<div id="spread">
-					<a href="https://twitter.com/share" class="twitter-share-button" data-via="qistoph" data-hashtags="wifiqr">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-					<div class="fb-like" data-href="https://qistoph.github.io/WiFiQR/" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false" data-font="tahoma"></div>
-				</div>
 			</div>
 			<div id="about">
 				<h1>WiFi QR-code - Javascript</h1>
@@ -410,18 +404,5 @@
 				</p>
 			</div>
 
-		<a href="https://github.com/qistoph/WiFiQR/" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
-
-		<script type="text/javascript">
-				var _gaq = _gaq || [];
-				_gaq.push(['_setAccount', 'UA-1177509-3']);
-				_gaq.push(['_trackPageview']);
-
-				(function() {
-				 var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				 ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-				 })();
-		</script>
 	</body>
 </html>
